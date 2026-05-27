@@ -166,7 +166,7 @@ I am deeply concerned about whether this development can realistically provide a
 
 ${personalCommentsText}
 
-In addition to my personal concerns, I would also like the Council to consider the following key issues:
+In summary, I would like the Council to consider my points and highlight the following key issues:
 
 • The likelihood that residential units immediately beside an established late-night music venue may be unable to provide appropriate residential amenity and could raise serious concerns around long-term human habitation
 • The importance of properly applying the Agent of Change principle
@@ -362,7 +362,7 @@ ${formattedDate}`;
 
                 <div className={`mt-4 whitespace-pre-wrap ${extraComments ? "" : "font-semibold text-red-700"}`}>{personalCommentsText}</div>
 
-                <p className="mt-4">In addition to my personal concerns, I would also like the Council to consider the following key issues:</p>
+                <p className="mt-4">In summary, I would like the Council to consider my points and highlight the following key issues:</p>
 
                 <ul className="mt-3 list-disc space-y-2 pl-6">
                   <li>The likelihood that residential units immediately beside an established late-night music venue may be unable to provide appropriate residential amenity and could raise serious concerns around long-term human habitation</li>
