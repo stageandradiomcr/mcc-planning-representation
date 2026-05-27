@@ -45,7 +45,7 @@ export default function PlanningObjectionApp() {
 
   const fieldClass = "mt-2 w-full border border-neutral-300 bg-white px-3 py-3 text-base text-neutral-950 focus:border-neutral-950 focus:outline-none";
   const labelClass = "block text-sm font-semibold text-neutral-950";
-  const buttonClass = "w-full border px-4 py-3 text-sm font-bold uppercase tracking-wide transition disabled:cursor-not-allowed disabled:opacity-40";
+  const buttonClass = "group flex w-full cursor-pointer items-center justify-center gap-2 border px-4 py-3 text-sm font-bold uppercase tracking-wide transition hover:-translate-y-0.5 hover:shadow-lg active:translate-y-0 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0 disabled:hover:shadow-none";
 
   const getCanvasPoint = (event) => {
     const canvas = canvasRef.current;
@@ -129,14 +129,13 @@ export default function PlanningObjectionApp() {
     setTimeout(() => setCopied(false), 1800);
   };
 
-  const exportPdf = () => {
-    if (!isFormComplete) return;
+  const generatePdf = () => {
     const element = document.getElementById("letter-preview");
-    if (!element) return;
+    if (!element) return null;
 
     const filename = `planning-representation-${planningRef.replace(/[^a-z0-9]/gi, "-").toLowerCase()}.pdf`;
 
-    html2pdf()
+    return html2pdf()
       .set({
         margin: [12, 12, 12, 12],
         filename,
@@ -149,10 +148,37 @@ export default function PlanningObjectionApp() {
       .save();
   };
 
+  const exportPdf = () => {
+    if (!isFormComplete) return;
+    generatePdf();
+  };
+
   const openEmail = async () => {
     if (!isFormComplete) return;
 
-    const emailBodyWithoutSignature = `Dear Ms Leckie,\n\nI am writing formally in regards to the proposed residential development of 126 flats next to Stage & Radio, a long-standing grassroots music venue in Manchester.\n\n${name ? `My name is ${name}. ` : ""}${address ? `My address is ${address}. ` : ""}${activeRelationship}\n\nI am deeply concerned about whether this development can realistically provide appropriate residential amenity and conditions suitable for long-term human habitation beside an established late-night music venue, while also protecting Stage & Radio and Manchester’s wider cultural and night-time economy.\n\n${personalCommentsText}\n\nIn addition to my personal concerns, I would also like the Council to consider the following key issues:\n\n• The likelihood that residential units immediately beside an established late-night music venue may be unable to provide appropriate residential amenity and could raise serious concerns around long-term human habitation\n• The importance of properly applying the Agent of Change principle\n• The ongoing national loss of grassroots music venues due to residential development pressures\n• The cultural importance of independent venues to Manchester's identity, artists and night-time economy\n\nPlease register this as an objection to the application.\n\nKind regards,\n\n${name}\n${formattedDate}`;
+    const emailBodyWithoutSignature = `Dear Ms Leckie,
+
+I am writing formally in regards to the proposed residential development of 126 flats next to Stage & Radio, a long-standing grassroots music venue in Manchester.
+
+${name ? `My name is ${name}. ` : ""}${address ? `My address is ${address}. ` : ""}${activeRelationship}
+
+I am deeply concerned about whether this development can realistically provide appropriate residential amenity and conditions suitable for long-term human habitation beside an established late-night music venue, while also protecting Stage & Radio and Manchester’s wider cultural and night-time economy.
+
+${personalCommentsText}
+
+In addition to my personal concerns, I would also like the Council to consider the following key issues:
+
+• The likelihood that residential units immediately beside an established late-night music venue may be unable to provide appropriate residential amenity and could raise serious concerns around long-term human habitation
+• The importance of properly applying the Agent of Change principle
+• The ongoing national loss of grassroots music venues due to residential development pressures
+• The cultural importance of independent venues to Manchester's identity, artists and night-time economy
+
+Please register this as an objection to the application.
+
+Kind regards,
+
+${name}
+${formattedDate}`;
 
     const isMobileDevice = /Android|iPhone|iPad|iPod|Opera Mini|IEMobile|Mobile/i.test(navigator.userAgent);
 
@@ -165,7 +191,7 @@ export default function PlanningObjectionApp() {
         console.warn("Could not copy email body automatically", error);
       }
 
-      emailBody = `Dear Ms Leckie,\n\nPlease see my representation regarding Planning Application ${planningRef}.\n\nIf the full representation text has not appeared below, I have copied it and will paste it into this email before sending.\n\nKind regards,\n\n${name}`;
+      emailBody = `[REMOVE THIS TEXT AND PRESS PASTE TO DROP YOUR LETTER HERE - NOTE: IT HAS ALREADY BEEN COPIED]`;
     }
 
     const mailto = `mailto:${councilEmail}?cc=${encodeURIComponent("advancing@stageandradio.co.uk")}&subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(emailBody)}`;
